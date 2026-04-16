@@ -1,0 +1,63 @@
+============================================================
+ŞABLON ADI : MUHÜRLEME_KARARI
+AÇIKLAMA   : Tehlikeli bulunan veya PGD'den geçemeyen
+             asansörlerin mühürlenmesine ilişkin resmi karar.
+DEĞİŞKENLER:
+  <<KURUM_ADI>>        - Kurumun tam adı (AYARLAR'dan)
+  <<KURUM_BIRIM>>      - Birim/Müdürlük adı (AYARLAR'dan)
+  <<KARAR_NO>>         - Karar numarası (kullanıcı girer)
+  <<TARIH>>            - Karar tarihi (bugün)
+  <<MALIK_ADI>>        - Asansör malikinin adı soyadı
+  <<ADRES>>            - Binanın açık adresi + ilçe
+  <<BINA_ADI>>         - Bina adı
+  <<TESCIL_NO>>        - Asansör tescil/sicil numarası
+  <<ASANSOR_TIP>>      - Asansör tipi
+  <<KAPASITE>>         - Asansör kapasitesi (kg)
+  <<DURAK_SAYISI>>     - Durak sayısı
+  <<SON_PGD_TAR>>      - Son PGD tarihi
+  <<GEREKCE>>          - Mühürleme gerekçesi (kullanıcı girer)
+  <<SERVIS_FIRMA>>     - Servis/bakım firması
+  <<YETKILI_ADI>>      - İmzalayacak yetkili adı (AYARLAR'dan)
+  <<YETKILI_UNVAN>>    - Yetkili unvanı (AYARLAR'dan)
+  <<YIL>>              - Yıl (otomatik)
+============================================================
+
+--- ŞABLON METNİ ---
+
+<<KURUM_ADI>>
+<<KURUM_BIRIM>>
+
+MÜHÜRLEME / FAALİYETTEN ALIMA KARARI
+
+Karar No  : <<KARAR_NO>>
+Karar Tar.: <<TARIH>>
+
+Aşağıda bilgileri verilen asansör, 2014/33/EU Asansör Yönetmeliği ve
+ilgili mevzuat hükümleri gereğince MÜHÜRLENEREK FAALİYETTEN ALINMIŞTIR.
+
+ASANSÖR BİLGİLERİ:
+  Bina Adı     : <<BINA_ADI>>
+  Adres        : <<ADRES>>
+  Tescil No    : <<TESCIL_NO>>
+  Malik        : <<MALIK_ADI>>
+  Asansör Tipi : <<ASANSOR_TIP>>
+  Kapasite     : <<KAPASITE>>
+  Durak Sayısı : <<DURAK_SAYISI>>
+  Son PGD Tar. : <<SON_PGD_TAR>>
+
+MÜHÜRLEME GEREKÇESİ:
+<<GEREKCE>>
+
+ÖNEMLİ UYARI: Mühürlü asansörün kullanılması yasaktır. Mühürü bozmak
+veya asansörü kullandırmak Türk Ceza Kanunu kapsamında suç teşkil etmekte
+olup yasal işlem başlatılacaktır.
+
+Asansörün yeniden faaliyete alınabilmesi için A-Tipi Muayene Kuruluşundan
+PGD uygunluk belgesi alınması ve Müdürlüğümüze başvurulması zorunludur.
+
+Bu karar tebligatın yapıldığı tarihte yürürlüğe girer.
+
+<<YETKILI_ADI>>
+<<YETKILI_UNVAN>>
+<<KURUM_BIRIM>>
+<<KURUM_ADI>>

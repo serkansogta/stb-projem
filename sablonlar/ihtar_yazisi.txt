@@ -1,0 +1,65 @@
+============================================================
+ŞABLON ADI : IHTAR_YAZISI
+AÇIKLAMA   : Süresinde PGD yaptırmayan malik/yöneticiye
+             gönderilen ihtarlı resmi yazı şablonu.
+DEĞİŞKENLER:
+  <<KURUM_ADI>>        - Kurumun tam adı (AYARLAR'dan)
+  <<KURUM_BIRIM>>      - Birim/Müdürlük adı (AYARLAR'dan)
+  <<EVRAK_SAYISI>>     - Otomatik üretilen evrak sayısı
+  <<TARIH>>            - Yazı tarihi (bugün)
+  <<MALIK_ADI>>        - Asansör malikinin adı soyadı
+  <<ADRES>>            - Binanın açık adresi + ilçe
+  <<BINA_ADI>>         - Bina adı
+  <<TESCIL_NO>>        - Asansör tescil/sicil numarası
+  <<PGD_SON_TAR>>      - PGD son tarihi (dolmuş)
+  <<GECIKME_GUN>>      - Kaç gün geciktiği
+  <<CEZA_TUTARI>>      - Uygulanacak idari para cezası
+  <<SURE_GUN>>         - Verilen ek süre (gün)
+  <<SURE_SON_TAR>>     - Ek süre bitiş tarihi
+  <<ASANSOR_TIP>>      - Asansör tipi
+  <<SERVIS_FIRMA>>     - Servis/bakım firması
+  <<YETKILI_ADI>>      - İmzalayacak yetkili adı (AYARLAR'dan)
+  <<YETKILI_UNVAN>>    - Yetkili unvanı (AYARLAR'dan)
+  <<YIL>>              - Yıl (otomatik)
+============================================================
+
+--- ŞABLON METNİ ---
+
+<<KURUM_ADI>>
+<<KURUM_BIRIM>>
+
+Sayı   : <<EVRAK_SAYISI>>
+Tarih  : <<TARIH>>
+Konu   : PGD Yaptırılmaması Nedeniyle İHTAR
+
+<<MALIK_ADI>>
+<<ADRES>>
+
+İHTAR
+
+<<ADRES>> adresinde bulunan <<BINA_ADI>> binaında tescil edilmiş <<TESCIL_NO>>
+sicil numaralı asansörünüzün <<PGD_SON_TAR>> tarihinde sona eren Periyodik
+Güvenlik Denetimi (PGD) <<GECIKME_GUN>> hâlâ yaptırılmamıştır.
+
+Daha önce tarafınıza yapılan yazılı bildirime rağmen PGD yükümlülüğünü
+yerine getirmediğiniz anlaşılmaktadır. Bu ihmalden doğan sorumluluk
+tamamen size aittir.
+
+Bu yazının tarafınıza tebliğinden itibaren <<SURE_GUN>> (<<SURE_SON_TAR>> tarihine
+kadar) A-Tipi Muayene Kuruluşuna PGD yaptırarak belgeyi Müdürlüğümüze
+iletmeniz zorunludur.
+
+Süre içinde PGD yaptırılmaması halinde:
+  - Asansörünüz mühürlenerek faaliyetten alınacaktır.
+  - <<CEZA_TUTARI>> tutarında idari para cezası uygulanacaktır.
+  - Asansörünüzü kullanan kişilerin uğrayacağı zararlardan hukuki
+    sorumluluğunuz doğacaktır.
+
+İlgili mevzuat: 6331 sayılı Kanun Md.13, 7036 sayılı Kanun, Asansör Yönetmeliği.
+
+İHTAR OLUNUR.
+
+<<YETKILI_ADI>>
+<<YETKILI_UNVAN>>
+<<KURUM_BIRIM>>
+<<KURUM_ADI>>

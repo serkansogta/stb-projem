@@ -1,0 +1,61 @@
+============================================================
+ŞABLON ADI : UYGUNLUK_BELGESI
+AÇIKLAMA   : PGD'yi başarıyla tamamlayan asansörler için
+             düzenlenen uygunluk/izin belgesi şablonu.
+DEĞİŞKENLER:
+  <<KURUM_ADI>>        - Kurumun tam adı (AYARLAR'dan)
+  <<KURUM_BIRIM>>      - Birim/Müdürlük adı (AYARLAR'dan)
+  <<BELGE_NO>>         - Belge numarası (kullanıcı girer)
+  <<TARIH>>            - Düzenlenme tarihi (bugün)
+  <<MALIK_ADI>>        - Asansör malikinin adı soyadı
+  <<ADRES>>            - Binanın açık adresi + ilçe
+  <<BINA_ADI>>         - Bina adı
+  <<TESCIL_NO>>        - Asansör tescil/sicil numarası
+  <<ASANSOR_TIP>>      - Asansör tipi
+  <<KAPASITE>>         - Asansör kapasitesi (kg)
+  <<DURAK_SAYISI>>     - Durak sayısı
+  <<PGD_TAR>>          - PGD denetim tarihi
+  <<PGD_KURULUS>>      - Denetimi yapan A-Tipi kuruluş
+  <<PGD_BELGE_NO>>     - PGD denetim belgesi numarası
+  <<SONRAKI_PGD>>      - Sonraki PGD'nin yapılması gereken tarih
+  <<YETKILI_ADI>>      - İmzalayacak yetkili adı (AYARLAR'dan)
+  <<YETKILI_UNVAN>>    - Yetkili unvanı (AYARLAR'dan)
+  <<YIL>>              - Yıl (otomatik)
+============================================================
+
+--- ŞABLON METNİ ---
+
+<<KURUM_ADI>>
+<<KURUM_BIRIM>>
+
+ASANSÖR PERİYODİK GÜVENLİK DENETİMİ UYGUNLUK BELGESİ
+
+Belge No  : <<BELGE_NO>>
+Düzenlenme: <<TARIH>>
+
+Aşağıda bilgileri verilen asansörün Periyodik Güvenlik Denetimi (PGD)
+mevzuata uygun şekilde tamamlanmış olup UYGUN bulunduğu bildirilir.
+
+ASANSÖR BİLGİLERİ:
+  Bina Adı         : <<BINA_ADI>>
+  Adres            : <<ADRES>>
+  Tescil No        : <<TESCIL_NO>>
+  Malik            : <<MALIK_ADI>>
+  Asansör Tipi     : <<ASANSOR_TIP>>
+  Kapasite         : <<KAPASITE>>
+  Durak Sayısı     : <<DURAK_SAYISI>>
+
+PGD BİLGİLERİ:
+  Denetim Tarihi   : <<PGD_TAR>>
+  Denetim Kuruluşu : <<PGD_KURULUS>>
+  Belge No         : <<PGD_BELGE_NO>>
+  Geçerlilik Tar.  : <<SONRAKI_PGD>>
+
+Asansörün belirtilen geçerlilik tarihi içinde güvenli olarak kullanılabilir.
+Geçerlilik süresinin dolmasından en az 60 (altmış) gün önce yeniden PGD
+yaptırılması yasal zorunluluktur.
+
+<<YETKILI_ADI>>
+<<YETKILI_UNVAN>>
+<<KURUM_BIRIM>>
+<<KURUM_ADI>>

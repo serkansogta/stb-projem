@@ -1,0 +1,59 @@
+============================================================
+ŞABLON ADI : PGD_BILDIRIMI
+AÇIKLAMA   : Malik/yöneticiye PGD yaptırma zorunluluğunu
+             bildiren resmi yazı şablonu.
+DEĞİŞKENLER:
+  <<KURUM_ADI>>        - Kurumun tam adı (AYARLAR'dan)
+  <<KURUM_BIRIM>>      - Birim/Müdürlük adı (AYARLAR'dan)
+  <<EVRAK_SAYISI>>     - Otomatik üretilen evrak sayısı
+  <<TARIH>>            - Yazı tarihi (bugün)
+  <<MALIK_ADI>>        - Asansör malikinin adı soyadı
+  <<ADRES>>            - Binanın açık adresi + ilçe
+  <<BINA_ADI>>         - Bina adı
+  <<TESCIL_NO>>        - Asansör tescil/sicil numarası
+  <<ASANSOR_TIP>>      - Asansör tipi
+  <<KAPASITE>>         - Asansör kapasitesi (kg)
+  <<SON_PGD_TAR>>      - Son PGD tarihi
+  <<SON_TAR>>          - Uyum için son tarih (PGD+30 gün)
+  <<SERVIS_FIRMA>>     - Servis/bakım firması
+  <<DURUM>>            - Asansör durumu
+  <<YETKILI_ADI>>      - İmzalayacak yetkili adı (AYARLAR'dan)
+  <<YETKILI_UNVAN>>    - Yetkili unvanı (AYARLAR'dan)
+  <<YIL>>              - Yıl (otomatik)
+============================================================
+
+--- ŞABLON METNİ ---
+
+<<KURUM_ADI>>
+<<KURUM_BIRIM>>
+
+Sayı   : <<EVRAK_SAYISI>>
+Tarih  : <<TARIH>>
+Konu   : Periyodik Güvenlik Denetimi (PGD) Yükümlülüğü Hakkında
+
+<<MALIK_ADI>>
+<<ADRES>>
+
+İLGİ: 2014/33/EU Asansör Yönetmeliği ve ilgili mevzuat.
+
+<<ADRES>> adresinde bulunan <<BINA_ADI>> binaında tescil edilmiş <<TESCIL_NO>>
+sicil numaralı <<ASANSOR_TIP>> tipindeki asansörünüzün Periyodik Güvenlik
+Denetimi (PGD) yapılması yasal zorunluluktur.
+
+Kayıtlarımıza göre söz konusu asansörünüzün son PGD tarihi <<SON_PGD_TAR>>
+olup denetim süresi dolmuştur veya yaklaşmaktadır.
+
+6331 sayılı İş Sağlığı ve Güvenliği Kanunu ve Asansör Yönetmeliği çerçevesinde,
+<<SON_TAR>> tarihine kadar TÜRKAK onaylı A-Tipi Muayene Kuruluşuna PGD
+yaptırmanız ve sonuç belgelerini Müdürlüğümüze iletmeniz gerekmektedir.
+
+Belirtilen süre içinde PGD yaptırılmaması halinde asansörünüz mühürlenerek
+faaliyetten alınacak ve yasal işlem başlatılacaktır.
+
+Bilgilerinize saygıyla arz ederim.
+
+
+<<YETKILI_ADI>>
+<<YETKILI_UNVAN>>
+<<KURUM_BIRIM>>
+<<KURUM_ADI>>
