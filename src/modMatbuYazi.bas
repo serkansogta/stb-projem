@@ -20,7 +20,8 @@ Public Sub MatbuYaziUret()
             "1 - PGD Bildirimi" & vbCrLf & _
             "2 - İhtar / Uyarı Yazısı" & vbCrLf & _
             "3 - Mühürleme / Kapatma Kararı" & vbCrLf & _
-            "4 - Uygunluk / İzin Belgesi"
+            "4 - Uygunluk / İzin Belgesi" & vbCrLf & _
+            "5 - Güvensiz Asansör İdari Yaptırım Üst Yazısı"
 
     Dim sSec As String
     sSec = Trim(InputBox(sMenu, UYGULAMA_ADI & " - Matbu Yazı Üret", "1"))
@@ -34,6 +35,7 @@ Public Sub MatbuYaziUret()
         Case "2": IhtarYazisiUret nAsansorID
         Case "3": MuhürlemeKarariUret nAsansorID
         Case "4": UygunlukBelgesiUret nAsansorID
+        Case "5": GuvensizAsansorYaptirimUret nAsansorID
         Case Else
             MsgBox "Geçersiz seçim.", vbExclamation, UYGULAMA_ADI
     End Select
@@ -497,4 +499,344 @@ WordHata:
     MsgBox "Word bulunamadı veya hata oluştu. Yazı metin dosyası olarak kaydedildi:" & _
            vbCrLf & sTxtYol, vbInformation, UYGULAMA_ADI
     WordBelgesiOlustur = sTxtYol
+End Function
+
+'==============================================================================
+' GÜVENSIZ ASANSÖR İDARİ YAPTIRIM ÜST YAZISI
+'==============================================================================
+
+'------------------------------------------------------------------------------
+' GÜVENSIZ ASANSÖR İDARİ YAPTIRIM ÜST YAZISI ÜRETİMİ
+' "Güvensiz" (ciddi riskli) asansörler için idari para cezası üst yazısı.
+' 7223 sayılı Ürün Güvenliği ve Teknik Düzenlemeler Kanunu kapsamında.
+' Tutanak .docx dosyasından otomatik bilgi yükleme destekler.
+'------------------------------------------------------------------------------
+Public Sub GuvensizAsansorYaptirimUret(ByVal nAsansorID As Long)
+    Dim col As Collection
+    Set col = AsansorGetir(nAsansorID)
+    If col.Count = 0 Then
+        MsgBox "Asansör bulunamadı!", vbExclamation, UYGULAMA_ADI
+        Exit Sub
+    End If
+
+    Dim sSablon As String
+    sSablon = SablonOku("IDARI_YAPTIRIM_USTYAZI")
+    If sSablon = "" Then
+        MsgBox "İdari Yaptırım Üst Yazısı şablonu ŞABLONLAR sayfasında bulunamadı!", _
+               vbCritical, UYGULAMA_ADI
+        Exit Sub
+    End If
+
+    ' ── Tutanaktan otomatik bilgi yükleme ──────────────────────────────────
+    Dim colTutanak As Collection
+    Set colTutanak = Nothing
+
+    If Onayla("Tutanak dosyasından (.docx) otomatik bilgi yüklemek ister misiniz?") Then
+        Dim sTutanakDosyasi As String
+        sTutanakDosyasi = DosyaSec("Word Belgesi (*.docx)", "*.docx")
+        If sTutanakDosyasi <> "" Then
+            Set colTutanak = TutanakOku(sTutanakDosyasi)
+            If colTutanak Is Nothing Then
+                MsgBox "Tutanak dosyası okunamadı. Tüm alanlar manuel girilecek.", _
+                       vbInformation, UYGULAMA_ADI
+            End If
+        End If
+    End If
+
+    ' ── Ön değerleri belirle (tutanaktan veya envanterden) ─────────────────
+    Dim sFirmaAdi As String, sVergiNo As String, sFirmaAdresi As String
+    Dim sAsansorAdres As String, sAsansorTip As String
+    Dim sTespit As String
+
+    sFirmaAdi    = TutanakDeger(colTutanak, "FIRMA_ADI")
+    sVergiNo     = TutanakDeger(colTutanak, "VERGI_NO")
+    sFirmaAdresi = TutanakDeger(colTutanak, "FIRMA_ADRESI")
+
+    ' Tespit tarih/sayı: tutanaktan veya boş
+    Dim sTespit_tar As String, sTespit_sayi As String
+    sTespit_tar  = TutanakDeger(colTutanak, "TARIH")
+    sTespit_sayi = TutanakDeger(colTutanak, "TUTANAK_NO")
+    If sTespit_tar <> "" And sTespit_sayi <> "" Then
+        sTespit = sTespit_tar & " - " & sTespit_sayi
+    End If
+
+    ' Asansör adresi: tutanaktan yoksa envanterden
+    sAsansorAdres = TutanakDeger(colTutanak, "ASANSOR_ADRES")
+    If sAsansorAdres = "" Then sAsansorAdres = col("Adres") & " " & col("Ilce")
+
+    ' Asansör tipi: tutanaktan yoksa envanterden
+    sAsansorTip = TutanakDeger(colTutanak, "ASANSOR_TIP")
+    If sAsansorTip = "" Then sAsansorTip = col("Tip")
+
+    ' ── Kullanıcı girişleri ─────────────────────────────────────────────────
+    sFirmaAdi = Trim(InputBox( _
+        "Cezalandırılan firma / kişi adı:", UYGULAMA_ADI, sFirmaAdi))
+    If sFirmaAdi = "" Then
+        MsgBox "Firma adı boş bırakılamaz.", vbExclamation, UYGULAMA_ADI
+        Exit Sub
+    End If
+
+    Dim sVergiDairesi As String
+    sVergiDairesi = Trim(InputBox( _
+        "Vergi dairesi adı:", UYGULAMA_ADI, ""))
+    sVergiNo = Trim(InputBox( _
+        "Vergi numarası:", UYGULAMA_ADI, sVergiNo))
+    Dim sTCKimlik As String
+    sTCKimlik = Trim(InputBox( _
+        "T.C. kimlik no (tüzel kişi ise '-' girin):", UYGULAMA_ADI, "-"))
+    sFirmaAdresi = Trim(InputBox( _
+        "Firma adresi:", UYGULAMA_ADI, sFirmaAdresi))
+    sTespit = Trim(InputBox( _
+        "Tespit raporu/tutanağı tarih ve sayısı:" & vbCrLf & _
+        "(örn: 25.07.2024 - 20-12DD69D5)", UYGULAMA_ADI, sTespit))
+    sAsansorAdres = Trim(InputBox( _
+        "Asansörün bulunduğu adres:", UYGULAMA_ADI, sAsansorAdres))
+    sAsansorTip = Trim(InputBox( _
+        "Asansör tipi:", UYGULAMA_ADI, sAsansorTip))
+
+    Dim sPGDKurulus As String
+    sPGDKurulus = Trim(InputBox( _
+        "PGD testi yapan kuruluş adı:", UYGULAMA_ADI, ""))
+    Dim sPGDTar As String
+    sPGDTar = Trim(InputBox( _
+        "PGD test raporu tarihi (GG/AA/YYYY):", UYGULAMA_ADI, ""))
+    Dim sPGDYaziSayi As String
+    sPGDYaziSayi = Trim(InputBox( _
+        "PGD kuruluşunun yazı sayısı:", UYGULAMA_ADI, ""))
+    Dim sPGDBelgeNo As String
+    sPGDBelgeNo = Trim(InputBox( _
+        "PGD test raporu numarası:", UYGULAMA_ADI, ""))
+
+    Dim sBakYaziTar As String
+    sBakYaziTar = Trim(InputBox( _
+        "Bakanlık kılavuz yazısı tarihi:", UYGULAMA_ADI, "24.03.2022"))
+    Dim sBakYaziSayi As String
+    sBakYaziSayi = Trim(InputBox( _
+        "Bakanlık yazısının sayısı:", UYGULAMA_ADI, "3473190"))
+
+    Dim sRiskTar As String
+    sRiskTar = Trim(InputBox( _
+        "Risk değerlendirme tablosu tarihi:", UYGULAMA_ADI, TarihStr(Date)))
+    Dim sRiskSira As String
+    sRiskSira = Trim(InputBox( _
+        "Risk değerlendirme sıra numarası (örn: 2024/2):", _
+        UYGULAMA_ADI, Year(Date) & "/1"))
+
+    Dim sBildirimTar As String
+    sBildirimTar = Trim(InputBox( _
+        "Firmaya önceki bildirim yazısı tarihi:", UYGULAMA_ADI, ""))
+    Dim sBildirimSayi As String
+    sBildirimSayi = Trim(InputBox( _
+        "Önceki bildirim yazısının sayısı:", UYGULAMA_ADI, ""))
+
+    Dim sCezaTutari As String
+    sCezaTutari = Trim(InputBox( _
+        "İdari para cezası tutarı rakamla (örn: 115.226,00):", UYGULAMA_ADI, ""))
+    Dim sCezaTutariYazi As String
+    sCezaTutariYazi = Trim(InputBox( _
+        "İdari para cezası tutarı yazıyla:" & vbCrLf & _
+        "(örn: Yüz OnBeşBinİkiYüzYirmialtı)", UYGULAMA_ADI, ""))
+
+    ' ── degMap doldur ────────────────────────────────────────────────────────
+    Dim degMap() As String
+    ReDim degMap(0 To 28, 0 To 1)
+    KurumBilgileriniDoldur degMap
+    degMap(8, 0) = "<<FIRMA_ADI>>":           degMap(8, 1) = sFirmaAdi
+    degMap(9, 0) = "<<VERGI_DAIRESI>>":       degMap(9, 1) = sVergiDairesi
+    degMap(10, 0) = "<<VERGI_NO>>":           degMap(10, 1) = sVergiNo
+    degMap(11, 0) = "<<TC_KIMLIK>>":          degMap(11, 1) = sTCKimlik
+    degMap(12, 0) = "<<FIRMA_ADRESI>>":       degMap(12, 1) = sFirmaAdresi
+    degMap(13, 0) = "<<TESPIT_TAR_SAYI>>":    degMap(13, 1) = sTespit
+    degMap(14, 0) = "<<ASANSOR_ADRES>>":      degMap(14, 1) = sAsansorAdres
+    degMap(15, 0) = "<<ASANSOR_TIP>>":        degMap(15, 1) = sAsansorTip
+    degMap(16, 0) = "<<PGD_KURULUS>>":        degMap(16, 1) = sPGDKurulus
+    degMap(17, 0) = "<<PGD_TAR>>":            degMap(17, 1) = sPGDTar
+    degMap(18, 0) = "<<PGD_YAZI_SAYI>>":      degMap(18, 1) = sPGDYaziSayi
+    degMap(19, 0) = "<<PGD_BELGE_NO>>":       degMap(19, 1) = sPGDBelgeNo
+    degMap(20, 0) = "<<BAKANLIK_YAZI_TAR>>":  degMap(20, 1) = sBakYaziTar
+    degMap(21, 0) = "<<BAKANLIK_YAZI_SAYI>>": degMap(21, 1) = sBakYaziSayi
+    degMap(22, 0) = "<<RISK_DEG_TAR>>":       degMap(22, 1) = sRiskTar
+    degMap(23, 0) = "<<RISK_DEG_SIRA>>":      degMap(23, 1) = sRiskSira
+    degMap(24, 0) = "<<BILDIRIM_TAR>>":       degMap(24, 1) = sBildirimTar
+    degMap(25, 0) = "<<BILDIRIM_SAYI>>":      degMap(25, 1) = sBildirimSayi
+    degMap(26, 0) = "<<CEZA_TUTARI>>":        degMap(26, 1) = sCezaTutari
+    degMap(27, 0) = "<<CEZA_TUTARI_YAZI>>":   degMap(27, 1) = sCezaTutariYazi
+    degMap(28, 0) = "<<TARIH>>":              degMap(28, 1) = TarihStr(Date)
+
+    Dim sIcerik As String
+    sIcerik = DegiskenleriDoldur(sSablon, degMap)
+
+    Dim sDosyaYolu As String
+    sDosyaYolu = WordBelgesiOlustur(sIcerik, _
+                 "GuvensizAsansor_Yaptirim_" & col("TescilNo") & "_" & Format(Date, "YYYYMMDD"))
+
+    If sDosyaYolu <> "" Then
+        MsgBox "İdari Yaptırım Üst Yazısı oluşturuldu:" & vbCrLf & sDosyaYolu, _
+               vbInformation, UYGULAMA_ADI
+    End If
+End Sub
+
+'------------------------------------------------------------------------------
+' TUTANAK DOSYASINDAN BİLGİ OKU
+' Sanayi Bakanlığı PGD tutanak .docx dosyasını okur ve
+' tablo hücrelerini etiket→değer çiftleri olarak döndürür.
+' Döndürür: Collection (key=anahtar, value=değer) veya Nothing hata durumunda.
+'------------------------------------------------------------------------------
+Public Function TutanakOku(ByVal sDocxYol As String) As Collection
+    Set TutanakOku = Nothing
+    If sDocxYol = "" Then Exit Function
+
+    ' Geçici dosya yolları
+    Dim sTmpZip As String, sTmpXml As String
+    sTmpZip = Environ("TEMP") & "\pgd_tutanak_tmp.zip"
+    sTmpXml = Environ("TEMP") & "\pgd_tutanak_doc.xml"
+
+    On Error GoTo TutanakHata
+
+    ' .docx'ı .zip olarak kopyala (OOXML formatı ZIP tabanlıdır)
+    FileCopy sDocxYol, sTmpZip
+
+    ' PowerShell ile ZIP içindeki word/document.xml'i oku
+    Dim oWsh As Object
+    Set oWsh = CreateObject("WScript.Shell")
+    Dim sPSCmd As String
+    sPSCmd = "Add-Type -AssemblyName System.IO.Compression.FileSystem; " & _
+             "$zip = [System.IO.Compression.ZipFile]::OpenRead('" & sTmpZip & "'); " & _
+             "$entry = $zip.Entries | Where-Object {$_.FullName -eq 'word/document.xml'}; " & _
+             "$stream = $entry.Open(); " & _
+             "$reader = New-Object System.IO.StreamReader($stream); " & _
+             "$content = $reader.ReadToEnd(); " & _
+             "$reader.Close(); $stream.Close(); $zip.Dispose(); " & _
+             "[System.IO.File]::WriteAllText('" & sTmpXml & "', " & _
+             "$content, [System.Text.Encoding]::UTF8)"
+    oWsh.Run "powershell -NoProfile -Command """ & sPSCmd & """", 0, True
+    Set oWsh = Nothing
+
+    ' XML'i parse et
+    Dim oXML As Object
+    Set oXML = CreateObject("MSXML2.DOMDocument.6.0")
+    oXML.async = False
+    If Not oXML.Load(sTmpXml) Then GoTo TutanakHata
+
+    oXML.setProperty "SelectionNamespaces", _
+        "xmlns:w='http://schemas.openxmlformats.org/wordprocessingml/2006/main'"
+
+    ' Tüm tablo hücrelerinin düz metnini bir diziye al
+    Dim oTcNodes As Object
+    Set oTcNodes = oXML.selectNodes("//w:tc")
+    Dim n As Long
+    n = oTcNodes.Length
+    If n = 0 Then GoTo TutanakHata
+
+    Dim aCells() As String
+    ReDim aCells(0 To n - 1)
+    Dim i As Long, j As Long
+    For i = 0 To n - 1
+        Dim oTNodes As Object
+        Set oTNodes = oTcNodes(i).selectNodes(".//w:t")
+        Dim sCellText As String
+        sCellText = ""
+        For j = 0 To oTNodes.Length - 1
+            sCellText = sCellText & oTNodes(j).Text
+        Next j
+        aCells(i) = Trim(sCellText)
+    Next i
+
+    ' Etiket→değer eşlemesi
+    ' Başlık satırı grubu: "Tarih", "Tutanak No" etiketleri için offset=3
+    ' (3 etiket hücresi ardından 3 değer hücresi gelir)
+    ' Detay bölümü: bitişik hücre çiftleri için offset=1
+    Dim col As New Collection
+    SozcukEkle col, aCells, "Tarih", 3, "TARIH"
+    SozcukEkle col, aCells, "Tutanak No", 3, "TUTANAK_NO"
+    SozcukEkle col, aCells, "Vergi No/T.C. No", 1, "VERGI_NO"
+    SozcukEkle col, aCells, "Ticaret Ünvanı/ Adı Soyadı", 1, "FIRMA_ADI"
+    SozcukEkle col, aCells, "Adresi", 1, "FIRMA_ADRESI"
+    SozcukEkle col, aCells, "Montaj Adresi", 1, "ASANSOR_ADRES"
+    SozcukEkle col, aCells, "Ürün Adı", 1, "ASANSOR_TIP"
+
+    ' Ürün adını temizle: "ASANSÖR > ASANSÖR > ELEKTRİKLİ ASANSÖR" → son parça
+    On Error Resume Next
+    Dim sUrunAdi As String
+    sUrunAdi = col("ASANSOR_TIP")
+    If InStr(sUrunAdi, ">") > 0 Then
+        Dim aUrunParcalar() As String
+        aUrunParcalar = Split(sUrunAdi, ">")
+        col.Remove "ASANSOR_TIP"
+        col.Add Trim(aUrunParcalar(UBound(aUrunParcalar))), "ASANSOR_TIP"
+    End If
+    On Error GoTo TutanakHata
+
+    ' Geçici dosyaları temizle
+    On Error Resume Next
+    Kill sTmpZip
+    Kill sTmpXml
+    On Error GoTo 0
+
+    Set TutanakOku = col
+    Exit Function
+
+TutanakHata:
+    On Error Resume Next
+    Kill sTmpZip
+    Kill sTmpXml
+    Set TutanakOku = Nothing
+End Function
+
+'------------------------------------------------------------------------------
+' TUTANAK KOLEKSİYONUNDAN DEĞER AL
+' Collection'da anahtar yoksa boş string döndürür (hata bastırır).
+'------------------------------------------------------------------------------
+Private Function TutanakDeger(ByVal col As Collection, ByVal sAnahtar As String) As String
+    If col Is Nothing Then TutanakDeger = "": Exit Function
+    On Error Resume Next
+    TutanakDeger = col(sAnahtar)
+    If Err.Number <> 0 Then TutanakDeger = ""
+    On Error GoTo 0
+End Function
+
+'------------------------------------------------------------------------------
+' SÖZCÜK EKLE (Tutanak yardımcısı)
+' Hücre dizisinde etiket arar ve (etiket + offset) konumundaki değeri
+' Collection'a ekler. Etiket bulunamazsa veya değer boşsa işlem yapılmaz.
+'------------------------------------------------------------------------------
+Private Sub SozcukEkle(ByRef col As Collection, ByVal aCells() As String, _
+                        ByVal sEtiket As String, ByVal nOffset As Long, _
+                        ByVal sAnahtar As String)
+    Dim i As Long
+    For i = 0 To UBound(aCells) - nOffset
+        If aCells(i) = sEtiket Then
+            Dim sDeger As String
+            sDeger = aCells(i + nOffset)
+            If sDeger <> "" Then
+                On Error Resume Next
+                col.Remove sAnahtar
+                On Error GoTo 0
+                col.Add sDeger, sAnahtar
+            End If
+            Exit Sub
+        End If
+    Next i
+End Sub
+
+'------------------------------------------------------------------------------
+' DOSYA SEÇ
+' Excel FileDialog ile kullanıcıya dosya seçtirme iletişim kutusu açar.
+' Döndürür: Seçilen dosyanın tam yolu, iptal edilirse boş string.
+'------------------------------------------------------------------------------
+Private Function DosyaSec(ByVal sAciklama As String, ByVal sFiltre As String) As String
+    DosyaSec = ""
+    On Error GoTo DosyaSecHata
+    Dim fd As Object
+    Set fd = Application.FileDialog(3)  ' msoFileDialogFilePicker
+    With fd
+        .Title = "Tutanak Dosyası Seç"
+        .Filters.Clear
+        .Filters.Add sAciklama, sFiltre
+        .AllowMultiSelect = False
+        If .Show = -1 Then DosyaSec = .SelectedItems(1)
+    End With
+    Exit Function
+DosyaSecHata:
+    DosyaSec = ""
 End Function

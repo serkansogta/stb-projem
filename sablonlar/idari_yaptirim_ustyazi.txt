@@ -1,0 +1,134 @@
+============================================================
+ŞABLON ADI : IDARI_YAPTIRIM_USTYAZI
+AÇIKLAMA   : "Güvensiz" (ciddi riskli) olarak sınıflandırılan
+             asansörler için idari para cezası üst yazısı şablonu.
+             7223 sayılı Ürün Güvenliği ve Teknik Düzenlemeler
+             Kanunu'nun 20. maddesi kapsamında uygulanır.
+DEĞİŞKENLER:
+  <<KURUM_ADI>>          - Kurumun tam adı, örn. T.C. DENİZLİ VALİLİĞİ
+  <<KURUM_BIRIM>>        - Birim adı, örn. İl Sanayi ve Teknoloji Müdürlüğü
+  <<EVRAK_SAYISI>>       - Otomatik üretilen evrak sayısı
+  <<TARIH>>              - Yazı tarihi (bugün)
+  <<FIRMA_ADI>>          - Cezalandırılan gerçek/tüzel kişi adı
+  <<VERGI_DAIRESI>>      - Vergi dairesi adı
+  <<VERGI_NO>>           - Vergi numarası
+  <<TC_KIMLIK>>          - T.C. kimlik numarası (tüzel kişi ise "-")
+  <<FIRMA_ADRESI>>       - Cezalandırılan kişinin adresi
+  <<TESPIT_TAR_SAYI>>    - Tespit raporu/tutanağı tarih ve sayısı
+  <<ASANSOR_ADRES>>      - Asansörün bulunduğu adres
+  <<ASANSOR_TIP>>        - Asansör tipi (elektrikli asansör, vb.)
+  <<PGD_KURULUS>>        - PGD testini yapan A-Tipi kuruluş adı
+  <<PGD_TAR>>            - PGD test raporu tarihi
+  <<PGD_YAZI_SAYI>>      - PGD kuruluşunun yazı sayısı
+  <<PGD_BELGE_NO>>       - PGD test raporu numarası
+  <<BAKANLIK_YAZI_TAR>>  - Bakanlık risk değ. kılavuz yazısı tarihi
+  <<BAKANLIK_YAZI_SAYI>> - Bakanlık yazısının sayısı
+  <<RISK_DEG_TAR>>       - Risk değerlendirme tablosu tarihi
+  <<RISK_DEG_SIRA>>      - Risk değerlendirme sıra numarası
+  <<BILDIRIM_TAR>>       - Firmaya önceki bildirim yazısı tarihi
+  <<BILDIRIM_SAYI>>      - Önceki bildirim yazısının sayısı
+  <<CEZA_TUTARI>>        - İdari para cezası tutarı rakamla (örn. 115.226,00)
+  <<CEZA_TUTARI_YAZI>>   - İdari para cezası tutarı yazıyla
+  <<YETKILI_ADI>>        - İmzalayacak yetkili adı soyadı (AYARLAR'dan)
+  <<YETKILI_UNVAN>>      - Yetkili unvanı (AYARLAR'dan)
+============================================================
+
+--- ŞABLON METNİ ---
+
+T.C.
+<<KURUM_ADI>>
+<<KURUM_BIRIM>>
+
+Sayı   : <<EVRAK_SAYISI>>
+Konu   : İdari Yaptırım (Para Cezaları)
+
+DAĞITIM YERLERİNE
+
+İDARİ PARA CEZASI
+
+İDARİ PARA CEZASI UYGULANAN
+GERÇEK VEYA TÜZEL KİŞİNİN
+Adı ve Soyadı / Ticaret Unvanı : <<FIRMA_ADI>>
+Vergi Dairesi/Numarası         : <<VERGI_DAIRESI>> / <<VERGI_NO>>
+T.C. Kimlik Numarası           : <<TC_KIMLIK>>
+Adresi                         : <<FIRMA_ADRESI>>
+
+Tespit Raporu/Tutanağı Tarih/Sayısı : <<TESPIT_TAR_SAYI>>
+
+İDARİ PARA CEZASININ KONUSU:
+
+İl Müdürlüğümüzce yapılan denetim sonucunda; ilgili asansör firmasının,
+"<<ASANSOR_ADRES>>" adresindeki <<ASANSOR_TIP>> hakkında test ve muayene kararı
+verilmiş; <<PGD_KURULUS>>'nün <<PGD_TAR>> tarihli ve <<PGD_YAZI_SAYI>> sayılı yazı
+ekinde gönderilen <<PGD_BELGE_NO>> numaralı test raporuna istinaden Bakanlığımızın
+<<BAKANLIK_YAZI_TAR>> tarihli ve <<BAKANLIK_YAZI_SAYI>> sayılı yazısı doğrultusunda,
+<<RISK_DEG_TAR>> tarihli ve <<RISK_DEG_SIRA>> sıra numaralı risk değerlendirme
+tablosuna göre asansör ciddi riskli ("Güvensiz") olarak değerlendirilmiştir.
+Asansörün ciddi risk taşıdığı firmanıza <<BILDIRIM_TAR>> tarihli ve <<BILDIRIM_SAYI>>
+sayılı İl Müdürlüğümüz yazısı ile bildirilmiştir.
+
+Asansör Piyasa Gözetimi ve Denetimi Yönetmeliği'nin 11. maddesinin 1. fıkrasının
+c) bendi doğrultusunda; aynı yönetmeliğin 11. maddesinin 4. fıkrasına göre 7223
+sayılı Ürün Güvenliği ve Teknik Düzenlemeler Kanunu'nun 7. maddesinin 1. fıkrasının
+a) bendine aykırılıktan aynı kanunun 20. maddesinin 1. fıkrasının a) bendinde
+öngörülen, <<FIRMA_ADI>> firmasına idari para cezası uygulanması kararlaştırılmıştır.
+
+CEZANIN HUKUKİ DAYANAĞI : 7223 sayılı Ürün Güvenliği ve Teknik Düzenlemeler
+Kanunu'nun 20 nci maddesi, Asansör Piyasa Gözetimi ve Denetimi Yönetmeliği.
+
+CEZA MİKTARI : 7223 sayılı Ürün Güvenliği ve Teknik Düzenlemeler Kanunu'na göre
+uygulanan idari para cezaları cezaya konu aykırılığın büyüklüğü ve yaptırım
+uygulanacak gerçek veya tüzel kişinin ekonomik durumu dikkate alınarak
+belirlenmiştir. Bu kapsamda <<CEZA_TUTARI>> TL (<<CEZA_TUTARI_YAZI>> Türk Lirası)
+idari para cezası uygulanmıştır.
+
+CEZA ÖDEME SÜRESİ : 7223 sayılı Ürün Güvenliği ve Teknik Düzenlemeler Kanunu'nun
+20 nci maddesinin 10 uncu fıkrası uyarınca Kararın tebliğ tarihinden itibaren bir
+ay içerisinde ödenmesi gerekmektedir.
+
+CEZANIN ÖDEME YERİ, İNDİRİM UYGULAMASI VE TAKSİTLENDİRME UYGULAMASI :
+
+İdari para cezasının 6183 sayılı Amme Alacaklarının Tahsil Usulü Hakkında
+Kanun'un 39 ncu maddesi ve Seri: B Sıra No:18 Tahsilat Genel Tebliği uyarınca,
+kanuni ödeme süresi içinde cezayı veren birime (bunlara hizmet veren muhasebe
+birimine, mal müdürlüğüne ve defterdarlık muhasebe müdürlüğüne) veya vergi
+dairesine ödenmesi gerekmektedir.
+
+Bir aylık ödeme süresinden sonra yapılacak ödemelerin ise yalnızca vergi
+dairesine yapılması gerekmektedir.
+
+Tahsilat Genel Tebliği hükümleri uyarınca genel bütçeye gelir kaydedilmesi
+gereken ancak süresinde ödenmemiş ve kesinleşmiş olan idari para cezalarının
+borçlunun bağlı olduğu vergi dairesine takip için bildirilmesi gerekmektedir.
+Bu kapsamda belirtilen bildirimin yapılmaması için ödemeye ilişkin makbuzun bir
+suretinin kesinleşme süresi içerisinde (altmış gün) İl Müdürlüğümüze ibraz
+edilmesi gerekmektedir.
+
+İdari para cezasının ödeme süresi içinde ödenmesi halinde, cezadan %25 oranında
+indirim yapılır. Ödeme süresi içinde idari para cezasının toplam %75'inin
+ödenmesi halinde indirim hakkından yararlanılır. İdari para cezasının ödenmiş
+olması, süresi içinde kanun yoluna başvurmaya engel teşkil etmez.
+
+Ayrıca ekonomik durumunuzun müsait olmaması halinde, idari para cezasının ödeme
+süresi içerisinde İl Müdürlüğümüze taksitlendirme talebinde bulunabilirsiniz.
+Taksitlendirme talebinizin kabul edilmesi durumunda idari para cezası dört eşit
+taksitte ve birinci taksitinin idari para cezasının ödeme süresi içinde, geri
+kalan üç taksitin ise idari para cezasının tebliğ tarihinden itibaren bir yıl
+içinde İl Müdürlüğümüzce belirlenecek sürelerde ödenmesi gerekmektedir.
+Taksitlerin zamanında ve tam olarak ödenmemesi halinde, idari para cezasının
+kalan kısmının tamamı tahsil edilecektir.
+
+YARGI YOLU : 7223 sayılı Ürün Güvenliği ve Teknik Düzenlemeler Kanunu'nun
+22 nci maddesinin ikinci fıkrasında bu Kanun hükümlerine göre verilen idari
+yaptırım kararlarına karşı 2577 sayılı İdari Yargılama Usulü Kanunu hükümlerine
+göre idari yargı yoluna başvurulabileceği belirtilmiştir. Bu sebeple 2577 sayılı
+İdari Yargılama Usulü Kanunu'nun 7 nci maddesinin birinci fıkrasına göre, idari
+para cezası kararlarına karşı, kararın tebliğ tarihini izleyen günden itibaren
+en geç 60 (altmış) gün içinde yetkili idare mahkemesine dava açma hakkınız
+bulunmaktadır. Bu süre içinde dava açılmamış olması halinde idari yaptırım
+kararı kesinleşir.
+
+<<YETKILI_ADI>>
+<<YETKILI_UNVAN>>
+<<KURUM_BIRIM>>
+<<KURUM_ADI>>
